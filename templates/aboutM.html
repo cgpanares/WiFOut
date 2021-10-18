@@ -1,0 +1,76 @@
+{% extends "main.html" %}
+
+{% block body %}
+
+<body>
+	<div class="container" style = "overflow-y:auto;">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="main_team_area m-y-3">
+                            <div class="head_title center  wow fadeInUp">
+                                <h2>About WifOut</h2>
+				<p>WiFOut is a wifi immobilizer which used the capabilities of script developed with python programming language. The script was integrated and managed by a web application resulting to a system. The system has the potential to remove the use of rogue access points in the company by sending deauthentication packets with the use of wireless network adapters.</p>
+				<h3>The Client</h3>
+				<p>Converge ICT is the fastest growing fiber internet and other digital consumer-centric services provider in the country today. The premium products and services we offered run through the first pure end-to-end fiber internet network in the country.</p>
+				<p>Visit: <a href="http://www.convergeict.com/about-us/" target = "_blank">About Converge ICT Solutions Inc.</a>
+				<h3>Our Team</h3>
+                                <p>Just over a year ago, we became a team that envisions the betterment of the society through technology and security. We believe that there are things you can perform in an alternative that does not involve a lot of effort. While there are many things that are yet to improve in this fast paced world, we believe that the first step to creating innovation through technology is the little things we do to create life changing approaches.</p>
+                            </div>
+
+                            <div class="main_team_content center">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="single_team white-text m-t-2 wow zoomIn">
+                                            <img src="{{ url_for('static', filename='images/panares.jpg') }}" alt="team" height = "250px" width = "200px" />
+                                            <div class="single_team_overlay">
+                                                <h4>Clark Panares</h4>
+                                                <p>Developer/Researcher</p>
+                                                <div class="team_socail">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="single_team white-text m-t-2 wow zoomIn">
+                                            <img src="{{ url_for('static', filename='images/monjardin.png') }}" alt="team" height = "250px" width = "150px" />
+                                            <div class="single_team_overlay">
+                                                <h4>Kizha Monjardin</h4>
+                                                <p>Researcher</p>
+                                                <div class="team_socail">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="single_team white-text m-t-2 wow zoomIn">
+                                            <img src="{{ url_for('static', filename='images/bang.jpg') }}" alt="team" height = "250px" width = "200px" />
+                                            <div class="single_team_overlay">
+                                                <h4>Kyung Bang</h4>
+                                                <p>Researcher</p>
+                                                <div class="team_socail">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="single_team white-text m-t-2 wow zoomIn">
+                                            <img src="{{ url_for('static', filename='images/gica.jpg') }}" alt="team" height = "250px" width = "250px" />
+                                            <div class="single_team_overlay">
+                                                <h4>Elia Gica</h4>
+                                                <p>Technical Adviser</p>
+                                                <div class="team_socail">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- End of col-sm-3 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+</body>
+
+{% endblock %}
+ 

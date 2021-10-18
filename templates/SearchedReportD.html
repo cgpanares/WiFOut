@@ -1,0 +1,71 @@
+{% extends "header.html" %}
+
+{% block body %}
+
+<head>
+<link href="{{ url_for('static', filename='css/scrolltable.css') }}" rel="stylesheet">
+</head>
+
+<div>
+		<center><h3>Showing Daily Records for Date: {{ dateD }}</h3><p><a href = "/reports/">All Records</a>&emsp;<a href = "/reportsDaily/">Daily</a>&emsp;<a href = "/reportsWeekly/">Weekly</a>&emsp;<a href = "/reportsMonthly/">Monthly</a>&emsp;<a href = "/reportsYearly/">Yearly</a>&emsp;</p></center>
+<div class = "container">
+	<div class = "container" style = "width:20%;float:left;">
+		<div id = "sidebar-wrapper">
+			<ul id="sidebar_menu" class="sidebar-nav">
+				<form action = "" method = "post" id = "form">
+					<br>
+					<br>
+					<fieldset> 
+					<legend>List of dates w/ Records</legend>
+					<select name = "MonthYear" onchange = "document.getElementById('MonthandYear').click()">
+					<option value = " ">[Pick a Date]</option>
+					{% for c in dateMonthandYearF %}
+					<option value = "{{c['monthRecordfromR']}}-{{c['yearRecordfromR']}}">{{c['monthRecordfromR']}} {{c['yearRecordfromR']}}</option>
+					{% endfor %}
+					</select>
+					<input type = "submit" name = "actionR" value = "inputDateSubmit" id = "MonthandYear" hidden />
+					</fieldset>
+					<br>
+					<fieldset>
+					<legend> Search Specific Record: </legend>
+					<p>Enter BSSID/SSID:<br>
+					<input type = "text" name ="inputforReport" value = "" placeholder = "Enter it here" style = "width:90%">
+					<br>
+					<br>
+					<input type="submit" class="btn btn-success" max-width = "100%" name = "actionR" value = "Show Record"/><p>
+				</fieldset>
+				</form>
+			</ul>
+		</div>	
+	</div>
+	<div>
+	<div class = "container scrollingtable" style = "width:75%;float:right;">
+		<br>
+		<table class="table table-bordered" style = "width:100%;">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Date</th>
+					<th>No. of Allowed</th>
+					<th>No. of Blocked</th>
+				</tr>
+ 			</thead>
+			<tbody>
+				{% for row in result_searchDD %}
+					{% set a = loop.index %}
+					{% set a = loop.index %}
+					<tr>
+						<td>{{a}}</td>
+						<td>{{ row["dateDaily"] }}</td>
+						<td>{{ row["AllowedD"] }}</td>
+						<td>{{ row["BlockedD"] }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	</div>
+</div>
+
+
+{% endblock %}

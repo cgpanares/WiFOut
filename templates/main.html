@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Welcome to WifOut!</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/logo2icon.ico') }}">
+	</head>
+
+<header>
+<nav class="navbar navbar-default" style = "height:65px;">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+	<img style ="max-width:120px;margin-top:-40px;" src="{{ url_for('static', filename='images/logo2.png') }}">
+	</a>
+    </div>
+
+  <div class ="container-fluid">
+	<ul class="nav nav-tabs" style = "margin-top:62px;">
+    </ul>
+
+	<ul class="nav navbar-nav navbar-right" style = "margin-top:-40px;">
+	<li><a href="/">Login</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Options <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+	    <li><a href="/help/">Help</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/about/">About</a></li>
+          </ul>
+        </li>
+      </ul>
+  </div>
+
+</header>
+
+<body>
+	<div class="container-fluid" align="center" style="min-height:100%">
+		{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+	    {% for message in messages %}
+		  <div class="alert alert-warning alert-dismissible" role="alert">
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{message}}
+		  </div>
+		{% endfor %}
+	  {% endif %}
+	{% endwith %}
+	{% block body %}{% endblock %}
+	</div>
+	<script src="{{ url_for('static', filename='js/jquery-1.11.1.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+</body>
+
+</html>

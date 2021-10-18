@@ -1,0 +1,202 @@
+{% extends "header.html" %}
+
+{% block body %}
+
+<head>
+<link href="{{ url_for('static', filename='css/scrolltable.css') }}" rel="stylesheet">
+<script src="{{ url_for('static', filename='js/database.js') }}"></script>
+
+<script>
+function loadlink(){
+    $('#blocked').load('dashboard.html',function () {
+         $(this).unwrap();
+    });
+}
+
+loadlink(); // This will run on page load
+setInterval(function(){
+    loadlink() // this will run after every 5 seconds
+}, 20000);
+</script>
+</head>
+
+<div role="tabpanel" style = "max-width:90%;">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#scannedD" aria-controls="scannedD" role="tab" data-toggle="tab">Scanned Devices</a></li>
+    <li role="presentation"><a href="#allowed" aria-controls="allowed" role="tab" data-toggle="tab">Allowed</a></li>
+    <li role="presentation"><a href="#blocked" aria-controls="blocked" role="tab" data-toggle="tab">Blocked</a></li>
+
+  </ul>
+
+  <!-- Tab panes -->
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in active" id="scannedD">
+	<div class = "scrollingtable" style = "width:85%;float:right;">
+	<br>
+	   	<table class="table table-bordered" id = "myTable">
+			<thead>
+				<tr>
+					<th><input type='checkbox' name='select_all' id = 'select_all' onclick="toggle(this);"></th>
+					<th>BSSID MAC Address</th>
+					<th>SSID</th>
+					<th>Channel</th>
+					<th>Signal Strength</th>
+				</tr>
+ 			</thead>
+			<form action="" method="post" id ="form">
+			<tbody>
+				{% for x in range(essid|length) %}
+							<tr>
+								<td><input type='checkbox' name='cell_ID' value = '{{x}}'/></td>
+								<td><input type='text' name='bssidMAC' value = '{{address[x]}}' readonly style="border:none;background:transparent;"/></td>
+								<td><input type='text' name='ssidName' value = '{{essid[x]}}' readonly style="border:none;background:transparent;"/></td>
+								<td><input type='text' name='channelMAC' value = '{{channel[x]}}' readonly style="border:none;background:transparent;"/></td>
+								<td><input type='text' name='signal' value = '{{signals[x]}}' readonly style="border:none;background:transparent;"/></td>
+							</tr>
+				{% endfor %}	
+			</tbody>
+		</table>
+	</div>
+	<br>
+	<div class = "container" style = "width:15%;float:left;">	
+	<p>Date Today:</p>
+	<input type = "text" value = "{{aDate}}" style = "width:150px;text-align:center;" readonly/>
+	<p></p>
+	<div class="btn-group btn-group-lg">
+		<input type="submit" class="btn btn-success" style = "width:150px" name = "action" value = "Allow"/>
+	</div>
+	<p></p>
+	<div class="btn-group btn-group-lg">
+		<input type="submit" class="btn btn-danger" style = "width:150px" name = "action" value = "Block"/>
+	</div>
+	<p></p>
+		<div class="dropdown">
+  			<button class="btn btn-default btn-lg dropdown-toggle btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style ="width:150px">Channel: {{ channelq["channelNumb"] }} &#8681;</button>
+  			<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    				<li><input type = "submit" name = "action" value = "Channel 1" style = "border:none;background:transparent;"></li>
+    				<li><input type = "submit" name = "action" value = "Channel 6" style = "border:none;background:transparent;"></li>
+    				<li><input type = "submit" name = "action" value = "Channel 11" style = "border:none;background:transparent;"></li>
+  			</ul>
+		</div>
+	</div>
+</form>
+</div>
+  
+<div role="tabpanel" class="tab-pane fade" id="allowed">
+	<div class = "scrollingtable" style = "width:85%;float:right;">	
+		<br>
+		<table class="table table-bordered" id = "myTable">
+			<thead>
+				<tr>
+					<th><input type='checkbox' name='select_all' id = 'select_all' onclick="toggle(this);"></th>
+					<th>Allowed Date</th>
+					<th>BSSID MAC Address</th>
+					<th>SSID</th>
+					<th>Channel</th>
+				</tr>
+ 			</thead>
+			<form action="" method="post" id ="form">
+			<tbody>
+				{% for rowA in result_allowed %}
+					{% set a = loop.index0 %}
+					<tr>
+						<td><input type='checkbox' name='cell_ID' value = '{{a}}'/></td>
+						<td><input type='text' name='date' value = '{{rowA["allowedDate"]}}' readonly style="border:none;background:transparent;"/></td>
+						<td><input type='text' name='bssidMAC' value = '{{rowA["bssidMAC"]}}' readonly style="border:none;background:transparent;"/></td>
+						<td><input type='text' name='ssidName' value = '{{rowA["nameSSID"]}}' readonly style="border:none;background:transparent;"/></td>
+						<td><input type='text' name='channelMAC' value = '{{rowA["channelNum"]}}' readonly style="border:none;background:transparent;"/></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<br>
+	<div class = "container" style = "width:15%;float:left;">	
+	<p>Date Today:</p>
+	<input type = "text" value = "{{aDate}}" style = "width:150px;text-align:center;" readonly/>
+	<p></p>
+	<div class="btn-group btn-group-lg">
+		<input type="submit" class="btn btn-success" style = "width:150px" name = "action" value = "Remove Allow"/>
+	</div>
+	<p></p>
+	<div class="btn-group btn-group-lg">
+		<input type="submit" class="btn btn-danger" style = "width:150px" name = "action" value = "Block Device"/>
+	</div>
+	<p></p>
+		<div class="dropdown">
+  			<button class="btn btn-default btn-lg dropdown-toggle btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style ="width:150px">Channel: {{ channelq["channelNumb"] }} &#8681;</button>
+  			<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    				<li><input type = "submit" name = "action" value = "Channel 1" style = "border:none;background:transparent;"></li>
+    				<li><input type = "submit" name = "action" value = "Channel 6" style = "border:none;background:transparent;"></li>
+    				<li><input type = "submit" name = "action" value = "Channel 11" style = "border:none;background:transparent;"></li>
+  			</ul>
+		</div>
+	</div>
+</form>
+</div>
+
+<div role="tabpanel" class="tab-pane fade" id="blocked">
+	<div class = "scrollingtable" style = "overflow-x:auto;width:85%;float:right;" id = "blockedListQ">	
+		<table class="table table-bordered" id = "myTable">
+			<thead>
+				<tr>
+					<th><input type='checkbox' name='select_all' id = 'select_all' onclick="toggle(this);"></th>
+					<th>Blocked Date</th>
+					<th>BSSID MAC Address</th>
+					<th>SSID</th>
+					<th>Channel</th>
+					<th>Status</th>
+				</tr>
+ 			</thead>
+			<form action="" method="post" id ="form">
+			<tbody>
+				{% for rowB in result_blocked %}
+					{% set b = loop.index0 %}
+					<tr>
+						<td><input type='checkbox' name='cell_ID' value = '{{b}}'/></td>
+						<td><input type='text' name='date' value = '{{rowB["blockedDate"]}}' readonly style="border:none;background:transparent;"/></td>
+						<td><input type='text' name='bssidMAC' value = '{{rowB["bssidMACB"]}}' readonly style="border:none;background:transparent;"/></td>
+						<td><input type='text' name='ssidName' value = '{{rowB["nameSSIDB"]}}' readonly style="border:none;background:transparent;"/></td>
+						<td><input type='text' name='channelMAC' value = '{{rowB["channelNumB"]}}' readonly style="border:none;background:transparent;"/></td>
+							{% if rowB["bssidMACB"] in addressAlls and rowB["channelNumB"] == channelq["channelNumb"] %}
+								{% set printz = "Blocking..." %}
+							{% elif (rowB["bssidMACB"] not in addressAlls and rowB["channelNumB"] == channelq["channelNumb"]) %}
+								{% set printz = "Not Detected" %}
+							{% endif %}
+						<td><input type='text' name='status' value = '{{printz}}' readonly style='border:none;background:transparent;'/></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<br>
+	<div class = "container" style = "width:15%;float:left;">	
+		<input type='text' value = "Date Today:" readonly style="width:150px;text-align:center;border:none;background:transparent;"/>
+		<input type = "text" value = "{{aDate}}" style = "width:150px;text-align:center;" readonly/>
+		<p></p>
+		<div class="btn-group btn-group-lg">
+			<input type="submit" class="btn btn-success" style = "width:150px" name = "action" value = "Remove Block"/>
+		</div>
+		<p></p>
+		<div class="btn-group btn-group-lg">
+			<input type="submit" class="btn btn-danger" style = "width:150px" name = "action" value = "Allow Device"/>
+		</div>
+		<p></p>
+		<div class="dropdown">
+  			<button class="btn btn-default btn-lg dropdown-toggle btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style ="width:150px">Channel: {{ channelq["channelNumb"] }} &#8681;</button>
+  			<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    				<li><input type = "submit" name = "action" value = "Channel 1" style = "border:none;background:transparent;"></li>
+    				<li><input type = "submit" name = "action" value = "Channel 6" style = "border:none;background:transparent;"></li>
+    				<li><input type = "submit" name = "action" value = "Channel 11" style = "border:none;background:transparent;"></li>
+  			</ul>
+		</div>
+	</div>
+</form>
+</div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "header.html" %}
+
+{% block body %}
+
+<head>
+<link href="{{ url_for('static', filename='css/scrolltable.css') }}" rel="stylesheet">
+</head>
+
+<div>
+		<center><h3>Showing Weekly Records</h3><p><a href = "/reports/">All Records</a>&emsp;<a href = "/reportsDaily/">Daily</a>&emsp;<a href = "/reportsWeekly/">Weekly</a>&emsp;<a href = "/reportsMonthly/">Monthly</a>&emsp;<a href = "/reportsYearly/">Yearly</a>&emsp;</p></center>
+<div class = "container">
+	<div class = "container" style = "width:20%;float:left;">
+		<div id = "sidebar-wrapper">
+			<ul id="sidebar_menu" class="sidebar-nav">
+				<form action = "" method = "post" id = "form">
+					<br>
+					<fieldset> 
+					<legend>Pick a Year</legend>
+					<select name = "WeekofYear" onchange = "document.getElementById('WeeklyYear').click()">
+					{% for c in dateSearchW %}
+					<option value = " ">----</option>
+					<option value = "{{c['dateYearly']}}">{{c['dateYearly']}}</option>
+					{% endfor %}
+					</select>
+					<input type = "submit" name = "actionR" value = "inputYearWSubmit" id = "WeeklyYear" hidden />
+					</fieldset>
+					<br>
+					<fieldset>
+					<legend> Search Specific Record: </legend>
+					<p>Enter BSSID/SSID:<br>
+					<input type = "text" name ="inputforReport" value = "" placeholder = "Enter it here" style = "width:90%">
+					<br>
+					<br>
+					<input type="submit" class="btn btn-success" max-width = "100%" name = "actionR" value = "Show Record"/><p>
+				</fieldset>
+				</form>
+			</ul>
+		</div>	
+	</div>
+	<div>
+	<div class = "container scrollingtable" style = "width:75%;float:right;">
+		<br>
+		<table class="table table-bordered" style = "width:100%">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Week</th>
+					<th>Year </th>
+					<th>No. of Allowed</th>
+					<th>No. of Blocked</th>
+				</tr>
+ 			</thead>
+			<tbody>
+				{% for row in result_reportsW %}
+					{% set a = loop.index %}
+					<tr>
+						<td>{{a}}</td>
+						<td>{{ row["dateWeekly"] }}</td>
+						<td>{{ row["yearOfWeek"] }}</td>
+						<td>{{ row["AllowedW"] }}</td>
+						<td>{{ row["BlockedW"] }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	</div>
+</div>
+
+
+{% endblock %}
